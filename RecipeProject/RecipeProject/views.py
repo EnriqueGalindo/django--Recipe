@@ -12,7 +12,7 @@ def index(request):
 def author(request, author):
     return render(request,
                   'RecipeProject/author.html',
-                  {'authorsx': Author.objects.get(name=author),
+                  {'authors': Author.objects.get(name=author),
                    'recipes': Recipe.objects.filter(author__name=author)
                    }
                   )
