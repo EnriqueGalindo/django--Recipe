@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse, HttpResponseRedirect
 from .models import Author, Recipe
+from .forms import Add_Author, Add_Recipe
 
 
 def index(request):
@@ -23,3 +24,42 @@ def detail(request, recipe):
                   'RecipeProject/detail.html',
                   {'recipes': Recipe.objects.get(title=recipe)}
                   )
+
+
+def add_author(request):
+    html = 'RecipeProject/generic_form.html'
+
+    if request.method == "POST":
+        form = Add_Author(request.POST)
+        # ALWAYS
+        if form.is_valid():
+            data = form.cleaned_data
+            Author.objects.create(
+                name=data['name'],
+                bio=data['bio']
+            )
+        return HttpResponseRedirect(reverse("index"))
+
+    form = Add_Author()
+    return render(request, html, {'form': form})
+
+
+def add_recipe(request):
+    html = 'RecipeProject/generic_form.html'
+
+    if request.method == "POST":
+        form = Add_Recipe(request.POST)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            Recipe.objects.create(
+                title=data['title'],
+                author=data['author'],
+                description=data['description'],
+                time_required=data['time_required'],
+                instructions=data['instructions']
+            )
+        return HttpResponseRedirect(reverse("index"))
+
+    form = Add_Recipe()
+    return render(request, html, {'form': form})
