@@ -11,5 +11,9 @@
     {% for recipe in recipes %}
     <h3><a href="{% url 'detail' recipe.title %}">{{ recipe.title }}</a></h3>
     {% endfor %}
+    <h3>Add an author</h3>
+    <a href="{% url 'add_author' %}">here</a>
+    <h3>Add a recipe</h3>
+    <a href="{% url 'add_recipe' %}">here</a>
 </body>
 </html>
