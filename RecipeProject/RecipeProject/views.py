@@ -1,6 +1,10 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
+from django.contrib.auth.models import User
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.decorators import login_required
+
 from .models import Author, Recipe
-from .forms import Add_Author, Add_Recipe
+from .forms import Add_Author, Add_Recipe, Login_Form
 
 
 def index(request):
@@ -25,10 +29,9 @@ def detail(request, recipe):
                   {'recipes': Recipe.objects.get(title=recipe)}
                   )
 
-
+# @login_required()
 def add_author(request):
     html = 'RecipeProject/generic_form.html'
-
     if request.method == "POST":
         form = Add_Author(request.POST)
         # ALWAYS
@@ -46,7 +49,6 @@ def add_author(request):
 
 def add_recipe(request):
     html = 'RecipeProject/generic_form.html'
-
     if request.method == "POST":
         form = Add_Recipe(request.POST)
 
@@ -63,3 +65,26 @@ def add_recipe(request):
 
     form = Add_Recipe()
     return render(request, html, {'form': form})
+
+
+def login_user(request):
+    html = 'RecipeProject/generic_form.html'
+    if request.method == 'POST':
+        form = Login_Form(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = authenticate(
+                username=data['username'],
+                password=data['password']
+            )
+            if user is not None:
+                login(request, user)
+                return HttpResponseRedirect(request.GET.get('next', '/'))
+
+    form = Login_Form()
+    return render(request, html, {'form': form})
+
+
+def logout_user(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))

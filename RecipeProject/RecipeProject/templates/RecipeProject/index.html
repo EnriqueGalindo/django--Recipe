@@ -7,6 +7,7 @@
   <title>Document</title>
 </head>
 <body>
+    <button><a href="{% url 'logout' %}">Logout</a></button>
     <h1>Index of Recipe Titles</h1> 
     {% for recipe in recipes %}
     <h3><a href="{% url 'detail' recipe.title %}">{{ recipe.title }}</a></h3>
