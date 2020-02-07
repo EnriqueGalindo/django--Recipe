@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import Author, Recipe
@@ -29,7 +30,9 @@ def detail(request, recipe):
                   {'recipes': Recipe.objects.get(title=recipe)}
                   )
 
-# @login_required()
+
+#@user_passes_test(lambda user: user.is_staff)
+@staff_member_required()
 def add_author(request):
     html = 'RecipeProject/generic_form.html'
     if request.method == "POST":
@@ -47,6 +50,7 @@ def add_author(request):
     return render(request, html, {'form': form})
 
 
+@login_required()
 def add_recipe(request):
     html = 'RecipeProject/generic_form.html'
     if request.method == "POST":
