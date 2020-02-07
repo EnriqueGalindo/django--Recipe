@@ -1,10 +1,10 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import Author, Recipe
-from .forms import Add_Author, Add_Recipe, Login_Form
+from .forms import Add_Author, Add_Recipe, Login_Form, Signup_Form
 
 
 def index(request):
@@ -64,6 +64,30 @@ def add_recipe(request):
         return HttpResponseRedirect(reverse("index"))
 
     form = Add_Recipe()
+    return render(request, html, {'form': form})
+
+
+def signup_user(request):
+    html = 'RecipeProject/generic_form.html'
+    if request.method == 'POST':
+        form = Signup_Form(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            user = User.objects.create_user(
+                data['name'],
+                None,
+                data['password'],
+            )
+            # user.save()
+            login(request, user)
+            # This author creation is Petes code from demo:
+            Author.objects.create(
+                name=data['name'],
+                user=user
+            )
+            return HttpResponseRedirect(reverse('index'))
+
+    form = Signup_Form()
     return render(request, html, {'form': form})
 
 
