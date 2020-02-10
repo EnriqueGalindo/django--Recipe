@@ -235,3 +235,10 @@ pip-selfcheck.json
 
 # End of https://www.gitignore.io/api/venv,linux,macos,django,python,visualstudiocode
 
+# My READMES
+DJANGO_FORMS.md
+README_PART_ONE.md
+RecipeProject/DJANGO_AUTH.md
+RecipeProject/DJANGO_FORMS.md
+
+
