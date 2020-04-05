@@ -7,9 +7,14 @@
   <title>Document</title>
 </head>
 <body>
-    <h1>Index of Recipe Titles</h1> 
-    {% for recipe in recipes %}
-    <h3><a href="{% url 'detail' recipe.title %}">{{ recipe.title }}</a></h3>
-    {% endfor %}
+    
+  <h1></h1>
+  {% for recipe in recipes %}
+  <ul>
+      <li>
+           <a href="/detail/{{recipe.id}}">{{recipe.title}}</a> 
+      </li>
+  </ul>
+  {% endfor %}
 </body>
 </html>

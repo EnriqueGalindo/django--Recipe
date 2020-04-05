@@ -1,0 +1,12 @@
+<body>
+    <p>Favorite recipes for: {{ request.user }}</p>
+  
+    {% for fav in favorites %}
+    <p><strong>Title: </strong>{{ fav.title }}</p>
+    <p><strong>Author: </strong>{{ fav.author }}</p>
+    <p><strong>Description: </strong>{{ fav.description }}</p>
+    <p><strong>Time Required: </strong>{{ fav.time_required }}</p>
+    <p><strong>Instructions: </strong>{{ fav.instructions }}</p>
+    {% endfor %}
+  
+  </body>

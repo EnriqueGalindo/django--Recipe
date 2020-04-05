@@ -1,5 +1,4 @@
-"""RecipeProject URL Configuration
-
+"""recipebox URL Configuration
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
 Examples:
@@ -15,15 +14,32 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from .models import Author, Recipe
-from . import views
-
-admin.site.register(Author)
-admin.site.register(Recipe)
+# from recipebox.models import Author, Recipe
+from .views import (
+    index,
+    detail,
+    author,
+    add_recipe_view,
+    edit_recipe_view,
+    add_favorite_view,
+    favorites_view,
+    add_author_view,
+    register_view,
+    login_view,
+    logut_view
+)
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('author/<author>', views.author, name='author'),
-    path('detail/<recipe>', views.detail, name='detail'),
     path('admin/', admin.site.urls),
+    path('', index, name="home"),
+    path('register/', register_view),
+    path('login/', login_view),
+    path('add_recipe/', add_recipe_view),
+    path('edit_recipe/<int:id>/', edit_recipe_view, name="edit"),
+    path('add_author/', add_author_view),
+    path('detail/<int:id>', detail),
+    path('add_favorite/<int:id>/', add_favorite_view, name='add_favorite'),
+    path('favorites/<int:id>/', favorites_view, name='favorites'),
+    path('author/<int:id>', author, name='author'),
+    path('logout/', logut_view)
 ]
